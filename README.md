@@ -1,6 +1,27 @@
 # nlp_paper
 
-# beyondBERT
+## Deep Learning from scrach 2_sub study
+
+### paper1
+- Efficient Estimation of Word Representations in Vector Space (original word2vec paper)
+### paper2
+- Distributed Representations of Words and Phrases and their Compositionality (negative sampling paper)
+### paper3
+- Understanding LSTM Networks (blog post overview)
+- The Unreasonable Effectiveness of Recurrent Neural Networks (blog post overview)
+### paper4
+- Sequence to Sequence Learning with Neural Networks (original seq2seq NMT paper)
+### paper5
+- Neural Machine Translation by Jointly Learning to Align and Translate (original seq2seq+attention paper)
+### paper6
+- Attention Is All You Need
+### paper7
+- BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
+### paper8
+- Deep contextualized word representations(ELMO)
+
+
+## beyondBERT
 
 ### week02
 - [The Bottom-up Evolution of Representations in the Transformer: A Study with Machine Translation and Language Modeling Objectives](https://arxiv.org/abs/1909.01380)
