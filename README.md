@@ -1,27 +1,27 @@
 # nlp_paper
 
-## Deep Learning from scrach 2_sub study
+## 1. Deep Learning from scrach 2_sub study
 
 ### paper1
-- Efficient Estimation of Word Representations in Vector Space (original word2vec paper)
+- [Efficient Estimation of Word Representations in Vector Space (original word2vec paper)](https://arxiv.org/pdf/1301.3781.pdf)
 ### paper2
-- Distributed Representations of Words and Phrases and their Compositionality (negative sampling paper)
+- [Distributed Representations of Words and Phrases and their Compositionality (negative sampling paper)](http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf)
 ### paper3
-- Understanding LSTM Networks (blog post overview)
-- The Unreasonable Effectiveness of Recurrent Neural Networks (blog post overview)
+- [Understanding LSTM Networks (blog post overview)](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
+- [The Unreasonable Effectiveness of Recurrent Neural Networks (blog post overview)](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
 ### paper4
-- Sequence to Sequence Learning with Neural Networks (original seq2seq NMT paper)
+- [Sequence to Sequence Learning with Neural Networks (original seq2seq NMT paper)](https://arxiv.org/pdf/1409.3215.pdf)
 ### paper5
-- Neural Machine Translation by Jointly Learning to Align and Translate (original seq2seq+attention paper)
-### paper6
-- Attention Is All You Need
-### paper7
-- BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
+- [Neural Machine Translation by Jointly Learning to Align and Translate (original seq2seq+attention paper)](https://arxiv.org/pdf/1409.0473.pdf)
+### paper6 in main study
+- [Attention Is All You Need](https://arxiv.org/pdf/1706.03762.pdf)
+### paper7 in main study
+- [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/pdf/1810.04805.pdf)
 ### paper8
-- Deep contextualized word representations(ELMO)
+- [Deep contextualized word representations(ELMO)](https://arxiv.org/pdf/1802.05365.pdf)
 
 
-## beyondBERT
+## 2. beyondBERT
 
 ### week02
 - [The Bottom-up Evolution of Representations in the Transformer: A Study with Machine Translation and Language Modeling Objectives](https://arxiv.org/abs/1909.01380)
