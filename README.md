@@ -2,22 +2,22 @@
 
 ## 1. Deep Learning from scrach 2_sub study
 
-### paper1
+### paper1 (05/28/20)
 - [Efficient Estimation of Word Representations in Vector Space (original word2vec paper)](https://arxiv.org/pdf/1301.3781.pdf)
-### paper2
+### paper2 (06/04/20)
 - [Distributed Representations of Words and Phrases and their Compositionality (negative sampling paper)](http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf)
-### paper3
+### paper3 (06/11/20)
 - [Understanding LSTM Networks (blog post overview)](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
 - [The Unreasonable Effectiveness of Recurrent Neural Networks (blog post overview)](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
-### paper4
+### paper4 (06/18/20, cancel)
 - [Sequence to Sequence Learning with Neural Networks (original seq2seq NMT paper)](https://arxiv.org/pdf/1409.3215.pdf)
-### paper5
+### paper5 (06/25/20)
 - [Neural Machine Translation by Jointly Learning to Align and Translate (original seq2seq+attention paper)](https://arxiv.org/pdf/1409.0473.pdf)
-### paper6 in main study
+### paper6 in main study (06/30/20)
 - [Attention Is All You Need](https://arxiv.org/pdf/1706.03762.pdf)
-### paper7 in main study
+### paper7 in main study (07/07/20)
 - [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/pdf/1810.04805.pdf)
-### paper8
+### paper8 (07/10/20)
 - [Deep contextualized word representations(ELMO)](https://arxiv.org/pdf/1802.05365.pdf)
 
 
