@@ -1,0 +1,255 @@
+- Conditional data augmentation(Conditional DA)을 위해 pretrained transformer base models(auto-regressive models:GPT2, auto-encoder models:BERT, seq2seq models:BART)를 연구함
+- text sequences에 class labels을 prepend하는 것은 DA를 위해 pretrained models을 condition하는 단순하고 효과적인 방법임
+- 3가지 분류 benchmarks에 대해서 pretrained seq2seq model이 다른 모델들보다 성능이 좋음
+- data diversity 측면에서 pretrained transformer base models이 어떻게 다른지 실험
+- pretrained transformer base models 중 어떤 모델이 가장 잘 class-label을 보존하는지 실험
+
+-----------------------------------------------------------------------------------------
+
+- DA는 학습 데이터를 증가시키는 테크닉(학습데이터 증가는 오버피팅을 줄이고, robustness를 강화하는 방법임)
+- 기존 NLP DA 연구
+	- Wei and Zou(2019): knowledge bases(WordNet) 이용해 word replacement -> 분류 성능 개선
+	- Kobayshi(2018): LM 사용
+	- 한계: class labels을 보존하는것이 힘듦
+		- 예) 감성 분류 task에서 input 문장의 non-conditional DA
+	    	- "a small impact with a big movie"(negative) -> "a small movie with a big impact"(positive)
+	      	- 원래 문장의 label을 가진 argumented data를 학습에 사용하면 모델 성능에 부정적 영향 끼침
+	- 한계 극복 연구
+		- Wu et al(2019): conditional BERT(CBERT)를 제안 
+			- CBERT: masked tokens을 예측하기 위해 class labels을 고려하는 방식으로 BERT MLM task를 확장함
+			- 이방법은 변경한 BERT 모델의 segment embedding에 의존하므로 segment beddings이 없는 다른 pretraind LMs들에 일반화 될수 없음 ???????
+		- Anaby-Tavor et al(2019): GPT2를 사용
+			- fine-tuned model의 입력으로 class를 제공함으로써 class가 주어졌을 때 examples을 생성하는 모델
+			- argumentation을 위해 10배수의 examples을 생성하고, model confidence socre를 기반으로 candidates을 선택함
+			- data 선택은 GP2만 가능하므로, 다른 모델과 공정한 비교가 아님
+		- 이러한 불일치성으로, pretrained models을 이용해 생성된 데이터들이 서로 얼마나 다른지, downstream model 성능에 어떤 영향을 주는지 이해하는 것은 쉽지 않음
+
+
+-----------------------------------------------------------------------------------------
+
+- 본 논문은, 
+	- pretrained transfomer based models을 사용한 DA에 대한 unified approach를 제안함
+	- 3가지 다른 종류의 pretrained models을 실험함
+		- 1) auto-regressive (AR) LM: GPT2
+		- 2) autoencoder (AE) LM: BERT
+		- 3) pre-trained seq2seq model: BART
+	- 3가지 NLP tasks을 위해 데이터를 생성함
+		- 1) sentiment classification
+		- 2) intent classification (IC)
+		- 3) question classification
+	- DA의 중요성을 이해하기 위해, low-resource data scenario(labeled data의 1%만 사용)을 시뮬레이션함
+	- 실험 결과, 
+		- 3가지 종류의 모델들이 모두 DA에 효과적으로 사용되었음
+		- generated data를 사용하는 것은 분류 성능을 향상 시킴
+		- 이 중에서도 pretrained seq2seq 모델이 가장 좋은 성능을 보임
+			- label 정보를 유지하면서 다양한 데이터를 생성하는 ability 때문임
+	- 이 논문의 기여
+		- 1) seq2seq2 pretraind model 기반 DA의 implemation
+		- 2) 다른 conditional pretrained model 기반의 DA방법들의 실험적 비교
+		- 3) 다양한 pretrained models을 이용하기 위한 practical guidelines을 포함한 unified DA 접근법 제시
+
+
+-----------------------------------------------------------------------------------------
+
+- pretrained models을 이용한 DA
+	- LM은 pretraining 하는 동안, AE or AR로 훈련됨
+		- AE setting: 문장에서 어떤 tokens이 masked되고, 모델은 masked tokens을 predict함
+		- AR setting: 모델은 context가 주어졌을 때, next word를 predict함
+	- seq2seq model에 대한 pretraining (denoising AE task을 위해 훈련됨)
+	- text 분류 정확도를 향상시키기 위해, DA에 이러한 모델들을 사용
+	 	- DA 접근 알고리즘: data generation process [ 알고리즘1 ]
+	 		- 입력: 학습 데이터 셋 Dtrain, Pretrained model G {AE,AR,Seq2Seq} 중 하나
+	 		- 1) Gtuned을 얻기위해 Dtrain을 가지고 G를 fine-tune함
+	 		- 2) Dsysnthetic 을 초기화 // DA가 들어갈 변수
+	 		- 3) Dtrain의 각 {xi, yi}에 대해 아래를 반복
+	 			- Gtuned을 이용해서 s=1개의 examples({x^i,y^i}(1~p))을 만들고
+	 			- 이전에 있던 Dsysnthetic와 만들어진 {x^i,y^i}(1~p)을 합쳐서 Dsysnthetic를 업데이트 침
+	 	- DA Problem formulation
+	 		- 학습 데이터셋 Dtrain = {xi, yi}(1~n) n개 페어
+	 		- xi = wj(1~m) m개 단어들로 구성된 한 문장
+	 		- yi = 연관된 label 
+	 		- 모든 augmentation 방법들에 대해, Dtrain안에 모든 example 마다 s=1 synthetic example을 생성함
+	 		- augmented data는 original data 크기와 동일함
+
+-----------------------------------------------------------------------------------------
+
+- pretrained "LM"을 이용해 Conditional DA
+	- conditional DA의 경우 model G는 data genertation을 위한 fine-tuning 동안에 label 정보를 통합
+	- Wu et al(2019)가 제안한 CBERT model은 BERT의 segment embeddings을 이용해 label에 대해 모델을 condition함
+		- CBERT conditioning은 segment embedding을 재사용하므로 BERT 구조에 특수하여 다른 pretrained LMs에 바로 적용될 수 없음
+	- 이와 유사하게 xi에 label인 yi를 prepend함으로써 labels에 대해 model을 condition할 수 있음
+	- pretrain model을 class label에 condition하는 2가지 일반적인 방법을 비교
+		- prepend
+			- 학습 데이터에 있는 각 문장 xi에 대해 label yi를 prepend함 + model vocabulary에 yi는 추가하지 않음
+			- model은 yi을 mutiple subword units으로 분리함
+		- expend
+			- 학습 데이터에 있는 각 문장 xi에 대해 label yi를 prepend함 + model vocabulary에 yi를 추가함
+			- model은 yi을 a single token으로 간주함
+
+
+- AE LMs을 이용한 fine-tuning과 data generation
+	- AE model: BERT
+	- fine-tuning 동안 defalut making parameters, MLM objective사용
+		 - 원래 문장에서 랜덤하게 tokens의 일부를 masked한 뒤, objective는 context을 이용하여 masked words의 원래 token을 예측
+	- BERTperpend, BERTexpand models 둘다 같은 objective을 이용해 fine-tune함
+
+- AR LMs을 이용한 fine-tuning과 data generation
+	- AR model: GPT2 (a generator model)
+	- fine-tuning
+		- dtrain에 있는 모든 문장들을 concatenate함으로써 학습 데이터셋을 만듦
+			- y1SEPx1EOSy2...ynSEPxnEOS
+			- SEP: label와 sentence사이를 구분하는 separation token
+	- generating data
+		- GPT2(to refer)
+			- yiSEP을 G에 prompt로 제공하고, 모델이 EOS token을 생성할 때까지 generating을 계속함
+		- GPT2context
+			- 위에 GPT2의 generation은 label 정보를 보존하는 것이 어려움
+		    - generated data label quaility를 개선하기 위해 G에 additional context를 제공함
+			- yiSEPw1,...,wk을 prompt로 제공함 (xi 문장의 첫 k개 words: w1,...,wk)
+
+
+-----------------------------------------------------------------------------------------
+
+- pretrained "seq2seq model"을 이용한 Conditional DA
+	- pretrained seq2seq model: BART
+-
+ seq2seq BART를 이용한 fine-tuning과 data generation
+	- class labels을 주어진 class의 모든 examples에 prepend함으로써 BART을 condition함
+	- word level masking을 2가지 방법으로 적용 
+		- 예비 실험
+			- 다양한 denoising tasks(insertion, deletion, masking)에 대해 실험을 진행 -> masking으로 훈련 때 가장 좋은 성능을 보임 
+			- masking은 word 혹은 subword level에 적용될 수 있음 -> subword masking이 word level에 대해 일관되게 열등함 
+		- BARTword
+			- 한 단어 wi를 mask token <mask>로 대체함
+		- BARTspan
+			- 한 continuous chunk(k개 단어: wi,wi+1,..,wi+k)을 하나의 single mask token <mask>로 대체함
+	- masking은 단어들의 20%에 적용
+	- BART를 denoising objective를 가지고 fine-tune함
+		- a masked sequence가 주어졌을 때, 원래 original sequence를 decode하는 것이 목표
+
+
+-----------------------------------------------------------------------------------------
+
+- pretrained model 구현
+- BERT based models
+	- AE 실험에서 bert-base-uncased 모델 사용
+		- dafalut parameters (huggingface's transformer package)
+	- prepend setting
+		- 모델 학습: 10 epochs, dev data partition에 대해 최고 성능 모델 선택, 초기 learning rate(4e-5) 유지
+	- expand setting
+		- 모델 학습: 수렴을 위해 150 epochs 필요. 더 높은 learning rate(SST, TREC datasets: 1.5e-4, SNIPS dataset: 1e-4). 초기 learning rate는 빠른 수렴을 위해 조정(expand에서는 labels의 embedding이 랜덤하게 초기화 되므로 반드시 필요)
+
+- GPT2 model 구현
+	- GPT2-Small 모델 사용
+		- dafalut training parameters (huggingface's transformer package)
+	- SEP(separate token), <|endoftext|>(EOS token) 사용
+	- text generation에서 default nucleus sampling parameters (top_k=0, top_p=0.9) 사용
+
+- BART model 구현
+	- fairseq toolkit 구현 코드 이용
+	- bart_large model weights 이용
+	- BART 모델이 이미 포함하고 있는 <mask> token을 mask words을 대체하기 위해 사용
+	- fine-tuning에서 denoising reconstruction task 사용
+		- 20% word를 masked, decoder가 original sequence로 reconstruct하는 것이 목적 
+		- label yi는 각 sequence xi 앞에 pretend됨
+		- decoder는 xi의 다른 token과 마찬가지로 yi를 생성함
+		- fairseq의 label_smoothed_cross_entropy criterion 사용(label_smoothing: 0.1)
+	- generation에서 beam search 사용(beam size: 5)
+	- f16 precision 사용
+
+- 모든 실험은 NVIDIA Tesla v100의 single GPU instance 사용
+
+-----------------------------------------------------------------------------------------
+- experimental setup
+- Baseline Approaches for DA
+	- baseline: EDA, CBERT
+	- 1) EDA(Wei and Zou, 2019)
+		- word-replacement based augmentation
+		- low-data regime에서 text classification 성능을 향상
+	- 2) CBERT(Wu et al, 2019)
+		- LM based augmentation
+		- 다른 word-replacement based method 보다 더 좋은 성능을 낸 최신 모델
+
+- Dataset
+	- 3가지 text classification datasets [ Table 1 ]
+	- 1) SST-2: sentiment classification on movie reviews (positive, negative)
+	- 2) SNIPS: 7 intents from Snips personal voice assistant
+	- 3) TREC: 6 question classification
+	- 모든 pretrained models은 다른 byte pair encodings을 사용(labels을 multiple tokens으로 나눔)
+
+- Low-resourced data scenraio
+	- low-data regime setting에 대한 이전 연구(Hu et al, 2019) following
+	- training/validation dataset의 1%를 랜덤 선택
+	- 사전 실험
+		- 1%, 5%, 10% sampling에 대한 분류 성능을 평가
+		- pretrained BERT는 moderate low-data regime에서 위 test sets에 상당히 잘 수행
+			- SNIPS training data 10% (no argumentation): 정확도 95.2
+	- 1% 데이터만 선택하면 validation set이 매우 작아서, 첫번째 epoch에서 모델 정확도가 100%가 될 수 있음
+	- 이를 피하고, 안정적인 development set을 가지기 위해, class마다 5 validataion examples 선택 [ Table 2 ]
+
+- DA 평가
+	- intrinsic, extrinsic 평가 모두 진행
+	- extrinsic 평가
+		- generated examples을 각 task의 low-data reigme training data에 추가함
+		- 3개 데이터 셋에 대해 평가함
+		- 모든 실험은 15번 반복함 
+	- intrinsic 평가
+		- generated text를 semantic fidelity와 text diversity 측면에서 평가
+		- semantic fidelity
+			- generated text가 input sentence의 의미와 class를 얼마나 잘 유지하는가
+			- 이를 측정하기 위해, pretrained English BERT-base uncased model를 fine-tuning하여 각 task에 classifier를 훈련 시킴
+			- 성능을 높이기 위해, existing labeled data의 training, test partition을 100%로 결합해서 training에 사용
+			- dev partition에 대한 성능을 기반으로 model을 선택
+		- text diversity
+			- 모델들의 다양한 output을 generate하는 능력을 비교하기 위해 type token ratio을 측정
+			- type token ratio: unique n-grams 수 / generated text에서 모든 n-grams 수
+
+
+-----------------------------------------------------------------------------------------
+- 결과 및 토의 
+- labels을 condition한 생성
+	- BERTprepend는 BERTexpand보다 2개 datasets에서 더 잘 함
+		- labels은 class의 의미에 밀접한 관련이 있으므로(e.g. SearchCreativeWork), tokens들을 prepend하는 것은 모델이 conditional word replacement를 위해 label 정보를 잘 활용할 수 있음
+		- BERT는 큰 데이터에 pretrained되어 있지만, 제한된 데이터에 fine-tuning을 하므로, expand모델의 경우 새롭고, 의미있는 label 표현들을 배우는 것이 어려울 것
+		- intrinsic 평가를 보면, expand 모델들에서 generated text가 class label를 유지할 가능성이 적어, prepand보다 낮은 정확도가 낮음 
+	- 다른 pretrained models에 prepend 기술을 사용
+
+- pretrained model 비교
+	- seq2seq pretraining based BART가 다른 DA 접근들보다 모든 datasets에서 잘함 [ Table 4 ]
+	- GPT2context 처럼 GPT에 context를 추가하면 성능이 향상됨
+
+*semantic fidelity 의미 충실도
+
+- Generated Data Fidelity 
+	- 각 test set에 classifier를 훈련 시키고, 훈련된 classifier를 이용해 generated text의 label을 예측함 (section 3.3.1)
+	- BERTprepend가 generated data의 semantic fidelity 측면에서 제일 잘함 [ Table 5 ]
+	- AR models(GPT2)는 generated text에서 class label을 유지하기 쉽지 않음
+	- BERT-based models의 fidelity가 GPT2-based model보다 높지만, BERTprepend, CBERT에서 가장 높은 semantic fidelity를 얻음
+	- 이러한 모델들의 generated output이 훈련 데이터에 다양성을 덜 추가하여 intrinsic 평가에서는 좋은 성능을 가져 오지만 반드시 extrinsic 평가에서는 그렇지는 않음
+
+- Generated Data Diversity
+	- BART-based methods은 특히 bi- 및 trigrams의 경우 가장 높은 type token ratio을 산출 
+	- 표 6은 Seq2Seq model BART가 가장 다양한 데이터를 생성함
+
+----------------------------------------------------------------
+
+- DA에 다양한 pretrained models을 사용하기 위한 가이드라인
+	- AE models
+		- label을 raw sequence에 prepend하는 것은 모델 아키텍처를 수정하는 것보다 성능 경쟁력이 있음
+		- 더 복잡한 AE 모델(RoBERTaprepend)는 BERTprepend보다 우수 (TREC 평균 acc: 33.6 vs 30.28)
+	- AR models
+		- AR 기반 모델(GPT2)은 매우 일관된 text를 생성, label을 잘 보존하지는 않음
+		- GPT2context에서와 같이 label 함께 몇 가지 시작 단어를 제공하는 것이 의미있는 labeled data를 생성하는 데 중요
+	- Seq2Seq models
+		- Seq2Seq 모델은 다양한 denoising autoencoder tasks(subword/word/span masking, random word insertion/deletion, text rotation) 실험 가능 
+		- word/span masking이 다른 denoising objectives 보다 성능이 좋아, DA에 선호됨
+	- AE models이 유사한 길이의 sequences들 생성하도록 제한되고, labels을 잘 보존하는 반면, AR models은 제한되지 않은 생성에는 우수하지만, label 정보를 잘 보유하지 못함. Seq2Seq models은 diversity과 semantic fidelity에 균형을 잘 유지하여 AE와 AR에 있음. span masking의 길이를 변화시켜 generated data의 diversity을 제어할 수 있음.
+
+----------------------------------------------------------------
+
+- 결론과 후속 연구
+	- AE, AR, Seq2Seq pre-trained models은 label 정보를 prepend하여 labels을 조정할 수 있고 training data를 보강하는 효과적인 방법
+	- 이러한 DA 방법은 data generator와 classifier를 co-training 같은 text content manipulation의 다른 발전과 쉽게 결합 될 수 있음. 다양한 DA 방법을 통합하여 universal NLP data augmentation을 위한 새로운 접근 방식을 고무되길.
+
+
+
