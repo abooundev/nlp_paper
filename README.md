@@ -53,3 +53,18 @@
 ### week11 (08/29/20)
 - [GPT3: Language Models are Few-Shot Learners](https://arxiv.org/pdf/2005.14165.pdf)
 - [T5: Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer](https://arxiv.org/pdf/1910.10683.pdf)
+
+
+## 3. Model Implematation (Code Review)
+
+### week0 (07/20/20) 
+ - Planning
+ 
+### week1 (08/10/20) 
+ - transformer: architecture
+ 
+### week2 (08/21/20)
+- transformer: label smoothing/beam search
+
+### week3 (08/28/20)
+- transformer: trainning/multi-GPU/experiment
