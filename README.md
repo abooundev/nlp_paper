@@ -58,16 +58,16 @@
 ## 3. Model Implematation (Code Review)
 
 ### week0 (07/20/20) 
- - Planning
+ - Study Planning
  
 ### week1 (08/10/20) 
- - transformer: architecture
+ - Transformer: architecture
  
 ### week2 (08/21/20)
-- transformer: label smoothing/beam search
+- Transformer: label smoothing/beam search
 
 ### week3 (08/28/20)
-- transformer: trainning/multi-GPU/experiment
+- Transformer: trainning/multi-GPU/experiment
 
 ### week4 (09/04/20) 
  - ElMO paper review
