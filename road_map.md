@@ -1,5 +1,8 @@
 ![](https://drive.google.com/uc?export=view&id={id})
 
+![image](https://miro.medium.com/max/1400/1*IdLJIaaandrB_aR_2ZCnlg.jpeg)
+
+
 ![image](https://drive.google.com/uc?export=view&id=1eG_6zJqpL-87Zye7RxMDh_2JhO2in0SS)
 
 ![image](https://drive.google.com/uc?export=view&id=1VOiwSZQClgZL0WZ8oixZgMwJtIsNQmzk)
