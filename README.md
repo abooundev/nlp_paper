@@ -68,3 +68,15 @@
 
 ### week3 (08/28/20)
 - transformer: trainning/multi-GPU/experiment
+
+### week4 (09/04/20) 
+ - ElMO paper review
+ 
+### week5 (09/14/20)
+- [ ]
+
+### week6 (09/21/20)
+- [ ]
+
+### week7 (09/28/20)
+- [ ]
