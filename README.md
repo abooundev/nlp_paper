@@ -71,10 +71,10 @@
 - Transformer: trainning/multi-GPU/experiment
 
 ### week4 (09/04/20) 
- - ElMO paper review
+ - ELMo paper review
  
 ### week5 (09/14/20)
-- ElMO char-CNN layer
+- ELMo char-CNN layer
 
 ### week6 (09/21/20)
 - [ ]
