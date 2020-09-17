@@ -38,6 +38,7 @@
 ### week06 (07/18/20)
 - [Mask-Predict: Parallel Decoding of Conditional Masked Language Models](https://arxiv.org/abs/1904.09324)
 - [Unsupervised Data Augmentation for Consistency Training](https://arxiv.org/abs/1904.12848)
+-> Don't Stop Pretraining: Adapt Language Models to Domains and Tasks
 ### week07 (07/25/20)
 - [You Impress Me: Dialogue Generation via Mutual Persona Perception](https://arxiv.org/abs/2004.05388)
 - [Recipes for building an open-domain chatbot](https://arxiv.org/abs/2004.13637)
@@ -73,7 +74,7 @@
  - ElMO paper review
  
 ### week5 (09/14/20)
-- [ ]
+- ElMO char-CNN layer
 
 ### week6 (09/21/20)
 - [ ]
