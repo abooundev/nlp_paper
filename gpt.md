@@ -190,3 +190,8 @@
 
  ![img](http://jalammar.github.io/images/openai-input%20transformations.png)
 
+[출처]
+
+* [Radford, A., Narasimhan, K., Salimans, T., & Sutskever, I. (2018). Improving language understanding by generative pre-training.]( https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf)
+* [The Illustrated BERT, ELMo, and co. (How NLP Cracked Transfer Learning)](http://jalammar.github.io/illustrated-bert/)
+* [고려대 강필성 교수님 강의](https://youtu.be/o_Wl29aW5XM)
