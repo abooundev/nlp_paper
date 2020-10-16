@@ -223,4 +223,4 @@
 
 [The Illustrated BERT, ELMo, and co. (How NLP Cracked Transfer Learning)](http://jalammar.github.io/illustrated-bert/)
 
-[고려대 강필성 교수님 강의](
+[고려대 강필성 교수님 강의](https://youtu.be/o_Wl29aW5XM)
