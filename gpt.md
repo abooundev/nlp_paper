@@ -190,8 +190,37 @@
 
  ![img](http://jalammar.github.io/images/openai-input%20transformations.png)
 
+# 4. Experiments 
+
+| step         | task                       | Dataset                                                      |
+| ------------ | -------------------------- | ------------------------------------------------------------ |
+| training  LM |                            | BooksCorpus dataset [71]                                     |
+| task         | Natural language inference | SNLI [5], MultiNLI [66], Question NLI [64], RTE [4], SciTail [25] |
+|              | Question Answering         | RACE [30], Story Cloze [40]                                  |
+|              | Sentence similarity        | MSR Paraphrase Corpus [14], Quora Question Pairs [9], STS Benchmark [6] |
+|              | Classification             | Stanford Sentiment Treebank-2 [54], CoLA [65]                |
+
+### 4.1 Setup Unsupervised pre-training 
+
+*  BooksCorpus dataset [71] 
+  * It contains over 7,000 unique unpublished books from a variety of genres(Adventure, Fantasy,  Romance)
+  * An alternative dataset, the 1B Word Benchmark, is approximately the same size but is shuffled at a sentence level - destroying long-range structure. 
+
+|             | detail                                                       |
+| ----------- | ------------------------------------------------------------ |
+| model  spec | - a 12-layer decoder-only transformer <br/>- masked self-attention heads (768 dimensional states and 12 attention heads)<br/>- Adam optimization <br/>- a max learning rate of 2.5e-4<br/>- learning rate was increased linearly from zero over the first 2000 updates and annealed to 0 using a cosine schedule<br/>- 100 epochs on minibatches of 64 randomly sampled, contiguous sequences of 512 tokens. <br/>- a simple weight initialization of N(0, 0.02) <br/>- a bytepair encoding (BPE) vocabulary with 40,000 merges [53] and residual, embedding, and attention dropouts with a rate of 0.1 for regularization<br/>- a modified version of L2 regularization with w = 0.01 on all non bias or gain weights<br/>- Gaussian Error Linear Unit (GELU)<br/>- learned position embeddings |
+| fine-tuning | - reuse the hyperparameter settings from unsupervised pre-training. <br/>- add dropout to the classifier with a rate of 0.1. <br/>- For most tasks, a learning rate of 6.25e-5 and a batchsize of 32. <br/>- 3 epochs of training was sufficient for most cases. <br/>- use a linear learning rate decay schedule with warmup over 0.2% of training. <br/>- λ was set to 0.5 |
+
+* use the ftfy library2 
+  * to clean the raw text in BooksCorpus, standardize some punctuation and whitespace
+* use the spaCy tokenizer.3
+
+
+
 [출처]
 
-* [Radford, A., Narasimhan, K., Salimans, T., & Sutskever, I. (2018). Improving language understanding by generative pre-training.]( https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf)
-* [The Illustrated BERT, ELMo, and co. (How NLP Cracked Transfer Learning)](http://jalammar.github.io/illustrated-bert/)
-* [고려대 강필성 교수님 강의](https://youtu.be/o_Wl29aW5XM)
+[Radford, A., Narasimhan, K., Salimans, T., & Sutskever, I. (2018). Improving language understanding by generative pre-training.]( https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf)
+
+[The Illustrated BERT, ELMo, and co. (How NLP Cracked Transfer Learning)](http://jalammar.github.io/illustrated-bert/)
+
+[고려대 강필성 교수님 강의](
