@@ -171,18 +171,15 @@
   * some tasks(text classification) can directly fine-tune our model as described above. 
   * other tasks(question answering or textual entailment) have **structured inputs** 
     * such as ordered sentence pairs, or triplets of document, question, and answers. 
-
 * Previous work  
   * proposed learning task specific architectures on top of transferred representations [44].
   * Such an approach re-introduces a significant amount of task-specific customization 
   * does not use transfer learning for these additional architectural components. 
-*  use a **traversal-style approach** [52], 
+* use a **traversal-style approach** [52], 
   * convert structured inputs into an ordered sequence that our pre-trained model can process. 
-*  All transformations include adding randomly initialized start and end tokens (<s>, <e>).
+* All transformations include adding randomly initialized start and end tokens (<s><e>)
 
-
-
-| task                                       | input transformations                                        | note                                                         |
+|                                            | input transformations                                        | note                                                         |
 | ------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Textual entailment                         | **concatenate the premise $p$ and hypothesis $h$ token sequences**, with a delimiter token ($) in between |                                                              |
 | Similarity                                 | modify the input sequence to contain both possible sentence orderings (with a delimiter in between) and process each **independently to produce two sequence representations $h_m^l$** which are **added element-wise** before being fed into the linear output layer. | there is no inherent ordering of the two sentences being compared.<br/> |
@@ -203,13 +200,13 @@
 ### 4.1 Setup Unsupervised pre-training 
 
 *  BooksCorpus dataset [71] 
-  * It contains over 7,000 unique unpublished books from a variety of genres(Adventure, Fantasy,  Romance)
-  * An alternative dataset, the 1B Word Benchmark, is approximately the same size but is shuffled at a sentence level - destroying long-range structure. 
+   * It contains over 7,000 unique unpublished books from a variety of genres(Adventure, Fantasy,  Romance)
+   * An alternative dataset, the 1B Word Benchmark, is approximately the same size but is shuffled at a sentence level - destroying long-range structure. 
 
 |             | detail                                                       |
 | ----------- | ------------------------------------------------------------ |
-| model  spec | - a 12-layer decoder-only transformer <br/>- masked self-attention heads (768 dimensional states and 12 attention heads)<br/>- Adam optimization <br/>- a max learning rate of 2.5e-4<br/>- learning rate was increased linearly from zero over the first 2000 updates and annealed to 0 using a cosine schedule<br/>- 100 epochs on minibatches of 64 randomly sampled, contiguous sequences of 512 tokens. <br/>- a simple weight initialization of N(0, 0.02) <br/>- a bytepair encoding (BPE) vocabulary with 40,000 merges [53] and residual, embedding, and attention dropouts with a rate of 0.1 for regularization<br/>- a modified version of L2 regularization with w = 0.01 on all non bias or gain weights<br/>- Gaussian Error Linear Unit (GELU)<br/>- learned position embeddings |
-| fine-tuning | - reuse the hyperparameter settings from unsupervised pre-training. <br/>- add dropout to the classifier with a rate of 0.1. <br/>- For most tasks, a learning rate of 6.25e-5 and a batchsize of 32. <br/>- 3 epochs of training was sufficient for most cases. <br/>- use a linear learning rate decay schedule with warmup over 0.2% of training. <br/>- λ was set to 0.5 |
+| model  spec | - a **12-layer** **decoder-only** transformer <br/>- masked self-attention heads (768 dimensional states and 12 attention heads)<br/>- Adam optimization <br/>- a max learning rate of 2.5e-4<br/>- learning rate was increased linearly from zero over the first 2000 updates and annealed to 0 using a cosine schedule<br/>- **100 epochs** on **minibatches of 64** randomly sampled, contiguous sequences of **512 tokens**. <br/>- a simple weight initialization of N(0, 0.02) <br/>- a bytepair encoding (BPE) vocabulary with 40,000 merges [53] and residual, embedding, and attention dropouts with a rate of 0.1 for regularization<br/>- a modified version of L2 regularization with w = 0.01 on all non bias or gain weights<br/>- Gaussian Error Linear Unit (GELU)<br/>- **learned position embeddings** |
+| fine-tuning | - reuse the hyperparameter settings from unsupervised pre-training. <br/>- add dropout to the classifier with a rate of 0.1. <br/>- For most tasks, a learning rate of 6.25e-5 and a **batchsize of 32**. <br/>- **3 epochs** of training was sufficient for most cases. <br/>- use **a linear learning rate decay** schedule with warmup over 0.2% of training. <br/>- **λ** was set to **0.5** |
 
 * use the ftfy library2 
   * to clean the raw text in BooksCorpus, standardize some punctuation and whitespace
@@ -223,4 +220,4 @@
 
 [The Illustrated BERT, ELMo, and co. (How NLP Cracked Transfer Learning)](http://jalammar.github.io/illustrated-bert/)
 
-[고려대 강필성 교수님 강의](https://youtu.be/o_Wl29aW5XM)
+[고려대 강필성 교수님 강의](
