@@ -238,15 +238,15 @@
 
 ###  week21 (1/16/21)
 
-* GPT paper discussion(1) (~2.2 Input Representation) 
+* GPT2 paper discussion(1) (~2.2 Input Representation) 
 
 ###  week22 (1/20/21)
 
-* GPT paper discussion(2) (3. Experiments~)
+* GPT2 paper discussion(2) (3. Experiments~)
 
 ###  week23 (1/28/21)
 
-* GPT paper discussion(2) (3. Experiments~)
+* GPT2 paper discussion(2) (3. Experiments~)
 
 ###  week24 (2/4/21)
 
@@ -282,10 +282,3 @@
 
 
 
-### 참고
-
-https://home.modulabs.co.kr/product/nlp-bootcamp-transformer-is-all-you-need/
-
-https://home.modulabs.co.kr/product/14th-nlp-from-scratch-1/
-
-https://lilianweng.github.io/lil-log/2019/01/31/generalized-language-models.html#albert
