@@ -13,3 +13,8 @@ Source: https://youtu.be/v7diENO2mEA
 
 Source: https://www.kakaobrain.com/blog/118
 
+
+### 참고
+* https://home.modulabs.co.kr/product/nlp-bootcamp-transformer-is-all-you-need/
+* https://home.modulabs.co.kr/product/14th-nlp-from-scratch-1/
+* https://lilianweng.github.io/lil-log/2019/01/31/generalized-language-models.html#albert
