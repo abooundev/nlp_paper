@@ -1,8 +1,13 @@
 # NLP Paper
 
+![image](https://user-images.githubusercontent.com/65707664/105603151-e61e5a00-5dd8-11eb-81b3-7e1328bf6ccd.png)
+
+> Parameter counts of several recently released pretrained language models.
+> source: DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter
+
 # 1. Deep Learning from scrach 2_sub study
 
-> 모두의 연구소 풀잎스쿨 11기 밑바닥부터 더 딥하게 배워보자 딥러닝 서브  
+> 모두의 연구소 풀잎스쿨 11기 밑바닥부터 더 딥하게 배워보자 딥러닝 서브 스터디
 > 매주 1회 진행 (20/5/28~7/10)
 
 ### paper1 (05/28/20)
