@@ -2,8 +2,7 @@
 
 # 1. Deep Learning from scrach 2_sub study
 
-> 모두의 연구소 풀잎스쿨 11기 밑바닥부터 더 딥하게 배워보자 딥러닝 substudy 
->
+> 모두의 연구소 풀잎스쿨 11기 밑바닥부터 더 딥하게 배워보자 딥러닝 서브  
 > 매주 1회 진행 (20/5/28~7/10)
 
 ### paper1 (05/28/20)
@@ -42,7 +41,6 @@
 # 2. beyondBERT
 
 > 모두의 연구소 풀잎스쿨 11.5기 beyondBERT 
->
 > 매주 1회 진행 (20/06/20~8/29)
 
 ### week02 (06/20/20)
@@ -99,7 +97,6 @@
 # 3. Model Implematation (+ Code Review)
 
 > NLP paper reading 및 model implementation 스터디 
->
 > 매주 1회 (20/07/20~현재 진행중)
 
 | No   | Model       | Framework(code)                                              | Paper                                                        | Author                                                       | Submission date |
